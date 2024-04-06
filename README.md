@@ -81,3 +81,11 @@ una contraseña autogenerada para el usuario por defecto. Para iniciar sesión, 
 ```
 mvn site
 ```
+- Test Postman
+
+Descargar archivo postman para pruebas  en:
+
+
+```
+ /resources/postman/desafio-java-h2.postman_collection.json
+```
