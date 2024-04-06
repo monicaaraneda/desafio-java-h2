@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PhoneService {
@@ -22,6 +23,7 @@ public class PhoneService {
         return phoneRepository.findById(id);
     }
 
+    public List<Phone> getPhonesByUserId(UUID userId) { return phoneRepository.findByUserId(userId);}
     public Phone createPhone(Phone phone) {
         return phoneRepository.save(phone);
     }
@@ -34,5 +36,5 @@ public class PhoneService {
         phoneRepository.deleteById(id);
     }
 
-    // Agrega cualquier otro método de servicio que necesites
+
 }
