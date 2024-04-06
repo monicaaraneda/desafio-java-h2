@@ -1,4 +1,4 @@
-# Evaluación: JAVA
+# Desafío : JAVA
 
 En este ejemplo, he utilizado H2 como base de datos en memoria y el resto de servicios web se exponen a través de Swagger-UI.
 El proyecto se puede ejecutar de la siguiente manera:
