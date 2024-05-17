@@ -1,7 +1,0 @@
-M   M   OOO   N   N  IIIII   CCCC   A
-MM MM  O   O  NN  N    I    C      A A
-M M M  O   O  N N N    I    C     AAAAA
-M   M  O   O  N  NN    I    C     A   A
-M   M   OOO   N   N  IIIII   CCCC  A   A
-${application.title} ${application.version}
-Powered by Spring Boot ${spring-boot.version}

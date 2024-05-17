@@ -1,13 +1,26 @@
 {
 	"info": {
-		"_postman_id": "fb395c95-6edf-4292-870d-f013f0d3b96d",
-		"name": "desafio-java-h2",
+		"_postman_id": "93648344-61ce-4c71-85e1-486f76d6f319",
+		"name": "signupservice",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "16132374"
+		"_exporter_id": "16132374",
+		"_collection_link": "https://contectaid.postman.co/workspace/Ale~161ec6ce-ecd2-4001-93d3-52abae591916/collection/16132374-93648344-61ce-4c71-85e1-486f76d6f319?action=share&source=collection_link&creator=16132374"
 	},
 	"item": [
 		{
 			"name": "create user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"auth": {
 					"type": "bearer",
@@ -24,12 +37,12 @@
 					{
 						"key": "Authorization",
 						"value": "",
-						"type": "text"
+						"uuid": "d2c08927-12cc-43ab-8b6d-a9be55125ede"
 					}
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Jane Doe\",\n    \"email\": \"ana.karina@gmail.com\",\n    \"username\": \"janedao\",\n    \"password\": \"secret123\",\n    \"role\": \"USER\",\n    \"isactive\": true,\n    \"phones\": [\n        {\n            \"number\": \"1234567\",\n            \"citycode\": \"1\",\n            \"contrycode\": \"57\"\n        },\n        {\n            \"number\": \"555555\",\n            \"citycode\": \"2\",\n            \"contrycode\": \"57\"\n        }\n    ]\n}",
+					"raw": "{\n    \"name\": \"Luis Valenzuela\",\n    \"email\": \"luis.valenzuela@gmail.com\",\n    \"username\": \"luisvalenzuela\",\n    \"password\": \"secret123\",\n    \"role\": \"USER\",\n    \"isactive\": true,\n    \"phones\": [\n        {\n            \"number\": \"1234567\",\n            \"citycode\": \"1\",\n            \"contrycode\": \"57\"\n        },\n        {\n            \"number\": \"555555\",\n            \"citycode\": \"2\",\n            \"contrycode\": \"57\"\n        }\n    ]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -37,14 +50,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/users",
+					"raw": "http://localhost:8080/signupservice/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"users"
 					]
 				}
@@ -69,7 +82,7 @@
 					{
 						"key": "Authorization",
 						"value": "",
-						"type": "text"
+						"uuid": "ce03ef51-1d34-489f-a3d8-da46e6c96adf"
 					}
 				],
 				"body": {
@@ -82,14 +95,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/phones",
+					"raw": "http://localhost:8080/signupservice/phones",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"phones"
 					]
 				}
@@ -98,6 +111,56 @@
 		},
 		{
 			"name": "token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"pm.environment.set(\"token\", jsonData.token);",
+							"pm.globals.set(\"token\", jsonData.token);",
+							"console.log(\"Token guardado:\", pm.environment.get(\"token\"));",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"alejandro\",\n    \"password\": \"secret123\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/signupservice/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signupservice",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
 			"event": [
 				{
 					"listen": "test",
@@ -123,7 +186,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\": \"moniara\",\n    \"password\": \"pink123\"\n}\n",
+					"raw": "{\n    \"username\": \"alejandro\",\n    \"password\": \"secret123\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -131,16 +194,16 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/auth/login",
+					"raw": "http://localhost:8080/signupservice/auth/register",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"auth",
-						"login"
+						"register"
 					]
 				}
 			},
@@ -176,23 +239,24 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "547ed1e1-17c7-47f2-baef-e3290c8be129"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "03f31246-5f8b-4c49-b336-3388204f5bac"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/users",
+					"raw": "http://localhost:8080/signupservice/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"users"
 					]
 				}
@@ -229,25 +293,26 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "87dce0cf-d2ac-4a8f-a8ac-cc78bf35bd7b"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "56eb6bb7-6424-48d3-87c8-42cdd05d7a5f"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/users/48dd711e-e197-449e-a0f2-956363dbff54",
+					"raw": "http://localhost:8080/signupservice/users/823aabe8-d286-4971-98de-663fa14bdeb6\n",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"users",
-						"48dd711e-e197-449e-a0f2-956363dbff54"
+						"823aabe8-d286-4971-98de-663fa14bdeb6\n"
 					]
 				}
 			},
@@ -283,23 +348,24 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "11fffb8b-a2c7-49bb-9ba6-482c6ab0c1d9"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "9355d77c-78fd-4b0e-90f3-8c3e5c37e8af"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/phones/3",
+					"raw": "http://localhost:8080/signupservice/phones/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"phones",
 						"3"
 					]
@@ -337,23 +403,24 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "15cc281e-97e8-4561-b3c5-825f5875bb7e"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "39dbce90-cfbc-4a5b-818e-7994c7424812"
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/phones",
+					"raw": "http://localhost:8080/signupservice/phones",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"phones"
 					]
 				}
@@ -377,12 +444,13 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "e986b208-23b9-4740-a79e-f2b4bd381562"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "91c1503a-dfc5-4231-932c-cf538d531eae"
 					}
 				],
 				"body": {
@@ -395,14 +463,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/users/48dd711e-e197-449e-a0f2-956363dbff54",
+					"raw": "http://localhost:8080/signupservice/users/48dd711e-e197-449e-a0f2-956363dbff54",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"users",
 						"48dd711e-e197-449e-a0f2-956363dbff54"
 					]
@@ -427,12 +495,13 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "82e947c4-7238-4f0c-a360-54b6b7ce2072"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "1a6b4427-4fca-4b66-920e-b307dadd51a4"
 					}
 				],
 				"body": {
@@ -445,14 +514,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/phones/3",
+					"raw": "http://localhost:8080/signupservice/phones/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"phones",
 						"3"
 					]
@@ -477,12 +546,13 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "2e0a7322-11c7-4fb2-89c7-b5ac2c3666b3"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "1510dfc2-75d7-491a-b28c-98124fb83a82"
 					}
 				],
 				"body": {
@@ -495,14 +565,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/users/48dd711e-e197-449e-a0f2-956363dbff54",
+					"raw": "http://localhost:8080/signupservice/users/48dd711e-e197-449e-a0f2-956363dbff54",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"users",
 						"48dd711e-e197-449e-a0f2-956363dbff54"
 					]
@@ -527,12 +597,13 @@
 				"header": [
 					{
 						"key": "accept",
-						"value": "*/*"
+						"value": "*/*",
+						"uuid": "436a6629-3210-4bc0-9d49-692807db4ec1"
 					},
 					{
 						"key": "Content-Type",
 						"value": "application/json",
-						"type": "text"
+						"uuid": "cd2977e3-065f-436f-a1ed-4a30bbc68b09"
 					}
 				],
 				"body": {
@@ -545,14 +616,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/desafioh2/phones/3",
+					"raw": "http://localhost:8080/signupservice/phones/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"desafioh2",
+						"signupservice",
 						"phones",
 						"3"
 					]

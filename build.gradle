@@ -29,8 +29,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-test'
 
     testImplementation 'org.mockito:mockito-core:4.0.0'
-    implementation 'com.h2database:h2:2.2.224' // Update to the latest version available
-    //runtimeOnly 'com.h2database:h2'
+    //implementation 'com.h2database:h2:2.2.224' // Update to the latest version available
+    runtimeOnly 'com.h2database:h2'
 
     implementation "io.jsonwebtoken:jjwt-api:${tokenVersion}"
     runtimeOnly "io.jsonwebtoken:jjwt-impl:${tokenVersion}"

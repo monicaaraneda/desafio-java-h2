@@ -2,6 +2,7 @@ package ms.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import ms.entities.Phone;
+import ms.entities.Role;
 import ms.entities.User;
 import ms.services.PhoneService;
 import ms.services.UserService;
@@ -99,12 +100,13 @@ public class UserController {
             }
             user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
             user.setIsActive(false);
+            user.setRole(Role.USER);
             User newUser = userService.createUser(user);
             if(!user.getPhones().isEmpty()) {
                 Set<Phone> userPhones = user.getPhones();
                 newUser.setPhones(userPhones);
                 for (Phone phone : userPhones) {
-                    phone.setUser_id(user.getId());
+                    phone.setUser(user);
                     phone.setUser(user);
                     phoneService.createPhone(phone);
                 }

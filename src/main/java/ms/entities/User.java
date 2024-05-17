@@ -1,9 +1,7 @@
 package ms.entities;
 
-
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,68 +11,65 @@ import java.util.*;
 @AllArgsConstructor
 @Data
 @Entity
-@Table(name="users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
+@NamedQueries({
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByUsername", query = "SELECT u FROM User u WHERE u.username = :username"),
+    @NamedQuery(name = "User.findByEmail.count", query = "SELECT COUNT(u) FROM User u WHERE u.email = :email")
+})
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"username", "email"})})
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(generator = "UUID")
+    @GeneratedValue(strategy = GenerationType.AUTO) // Adjusted the strategy if you are not using a UUID generator
     private UUID id;
 
-    @Column(name = "username", nullable = false, length = 255)
+    @Column(nullable = false, length = 255, unique = true) // Ensured uniqueness directly in the column definition
     private String username;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(name = "email", nullable = false, length = 255, unique = true)
+    @Column(nullable = false, length = 255, unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String password;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
-    private Set<Phone> phones;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Phone> phones; // Changed fetch type to LAZY for performance
 
+    @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created", nullable = false, updatable = false)
     private Date created;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "modified")
     private Date modified;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "last_login")
     private Date lastLogin;
 
-    @Column(name = "token")
     private String token;
 
-    @Column(name = "isactive")
     private Boolean isActive;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
     @PrePersist
-    protected void onCreate() {
-        created = new Date();
-        lastLogin = created; // Para nuevos usuarios, last_login coincidirá con la fecha de creación
+    private void onCreate() {
+        Date now = new Date();
+        created = now;
+        lastLogin = now; // Initialize lastLogin at the creation time
     }
+
     @PreUpdate
-    protected void onUpdate() {
+    private void onUpdate() {
         modified = new Date();
-    }
-    public User() {
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority((role.name())));
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + role.name()));
     }
 
     @Override
@@ -94,18 +89,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return isActive != null && isActive;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return String.format("User{id=%s, username='%s', email='%s'}", id, username, email);
     }
-
+    public User() {}
 }

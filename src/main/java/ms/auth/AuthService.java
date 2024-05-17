@@ -88,7 +88,7 @@ public class AuthService {
 			user.setIsActive(true);
 			user.setModified(new Date());
 			if(user.getRole() == null)
-				user.setRole( Role.USER);
+				user.setRole( Role.ADMIN);
 
 			userService.createUser(user);
         }else{
