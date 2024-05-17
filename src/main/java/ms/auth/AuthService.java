@@ -2,10 +2,11 @@ package ms.auth;
 
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 
 import lombok.extern.slf4j.Slf4j;
 import ms.entities.User;
-import ms.error.PrimaryKeyViolationException;
+import ms.exception.PrimaryKeyViolationException;
 import ms.jwt.JwtService;
 import ms.entities.Role;
 import ms.services.UserService;
@@ -72,23 +73,26 @@ public class AuthService {
     }
 
     public  AuthResponse register(RegisterRequest request) {
-		User user = null;
+		User user = new User();
 		try {
     	Optional<User> existingUser = userService.findByEmail(request.getUsername());
         
         // Verificar si el usuario ya existe
-        if (existingUser.isPresent()) {
+        if (!existingUser.isPresent()) {
 
-			user = existingUser.get();
+		    user.setId(UUID.randomUUID());
+			user.setName("name user");
+			user.setEmail("name.user@email.cl");
 			user.setPassword(passwordEncoder.encode(request.getPassword()));
+			user.setUsername(request.getUsername());
 			user.setIsActive(true);
 			user.setModified(new Date());
 			if(user.getRole() == null)
 				user.setRole( Role.USER);
 
-			userService.updateUser(user);
+			userService.createUser(user);
         }else{
-			 throw new DataIntegrityViolationException("El usuario No existe");
+			 throw new Exception("El usuario existe");
 		}
 
         return AuthResponse.builder()
@@ -97,18 +101,12 @@ public class AuthService {
             .message("Usuario registrado correctamente")
             .build();
         
-    	}catch (DataIntegrityViolationException ex) {
+    	}catch (Exception ex) {
     	     return AuthResponse.builder()
     	                    .code(403) // Código de estado 403 (Forbidden)
     	                    .message("Error al consultar el usuario: " + ex.getMessage())
     	                    .build();
-        }catch (PrimaryKeyViolationException e) {
-        	 return AuthResponse.builder()
-	                    .code(400) // Código de estado 403 (Forbidden)
-	                    .message("Error en el registro del usuario: " + e.getMessage())
-	                    .build();
         }
-
     }
 
 }

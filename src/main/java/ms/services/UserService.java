@@ -3,6 +3,8 @@ package ms.services;
 import lombok.extern.slf4j.Slf4j;
 import ms.entities.User;
 import ms.repository.UserRepository;
+import ms.utils.ValidationUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +20,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+
     public List<User> findAllWithPhones() {
         return userRepository.findAllWithPhones();
     }
@@ -29,7 +32,7 @@ public class UserService {
 
     public User createUser(User user) throws Exception {
 
-        if (!user.getEmail().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+        if (!ValidationUtils.isValidEmail(user.getEmail())) {
             throw new Exception("El formato del correo electrónico es incorrecto.");
         }
         // Verificar si el correo ya está registrado

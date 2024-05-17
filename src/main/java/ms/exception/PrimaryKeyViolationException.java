@@ -1,4 +1,4 @@
-package ms.error;
+package ms.exception;
 
 public class PrimaryKeyViolationException extends RuntimeException {
     private static final long serialVersionUID = 5194230440030638533L;

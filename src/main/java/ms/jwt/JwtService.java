@@ -37,7 +37,7 @@ public class JwtService {
 
     private String getToken(Map<String,Object> extraClaims, User user) {    log.info("getToken User " + user.toString());
 
-        if(SECRET_KEY == null) SECRET_KEY = "1Mo8XV9vL+jvHSKXOtxM4hhER6kG2ziPJ8Uxbpc09N4=";
+        if(SECRET_KEY == null) SECRET_KEY = "IvoQAipU2iOsYr/MrXwAZGPHNMNYogUGApLdzvCCeG0=";
         long expirationTimeLong = expiration != null ? Long.parseLong(expiration) : 60000L; // Parse the expiration time from the properties file
         final Date createdDate = new Date(System.currentTimeMillis());
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong * 1000);

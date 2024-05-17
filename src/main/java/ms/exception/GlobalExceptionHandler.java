@@ -1,4 +1,4 @@
-package ms.error;
+package ms.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

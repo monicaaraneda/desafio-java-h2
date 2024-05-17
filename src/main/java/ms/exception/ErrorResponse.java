@@ -1,4 +1,4 @@
-package ms.error;
+package ms.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

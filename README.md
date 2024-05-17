@@ -1,11 +1,13 @@
-# Desafío : JAVA
+# Evaluación : JAVA
 
 En este ejemplo, he utilizado H2 como base de datos en memoria y el resto de servicios web se exponen a través de Swagger-UI.
 El proyecto se puede ejecutar de la siguiente manera:
 
- - mvn clean
- - mvn install
- - mvn spring-boot:run
+```
+ gradle clean
+ gradle build
+ gradle bootRun
+```
 
 
 - Pre Requisitos
@@ -26,26 +28,26 @@ El proyecto se puede ejecutar de la siguiente manera:
 Una vez que el proyecto esté en funcionamiento, se puede acceder a DB, Services y Swagger-UI de la siguiente manera:
 
  - DB
-	 - acceder a localhost:8080/desafioh2/h2-console con schema jdbc:h2:mem:testdb  conectarse y ver datos de tablas.
+	 - acceder a localhost:8080/signupservice/h2-console con schema jdbc:h2:mem:testdb  conectarse y ver datos de tablas.
  
  - Services
 
 	 - User
-		 - GET  localhost:8080/desafioh2/user
-	 	 - GET  localhost:8080/desafioh2/user/{id}
-		 - POST localhost:8080/desafioh2/user
-		 - PUT  localhost:8080/desafioh2/user
-		 - DELETE localhost:8080/desafioh2/user/{id}	
+		 - GET  localhost:8080/signupservice/user
+	 	 - GET  localhost:8080/signupservice/user/{id}
+		 - POST localhost:8080/signupservice/user
+		 - PUT  localhost:8080/signupservice/user
+		 - DELETE localhost:8080/signupservice/user/{id}	
 
 	 - Phones
-		 - GET  localhost:8080/desafioh2/phones
-		 - GET  localhost:8080/desafioh2/phones/{id}
-         - POST localhost:8080/desafioh2/phones
-		 - PUT  localhost:8080/desafioh2/phones/{id}
-		 - DELETE localhost:8080/desafioh2/phones/{id} 
+		 - GET  localhost:8080/signupservice/phones
+		 - GET  localhost:8080/signupservice/phones/{id}
+         - POST localhost:8080/signupservice/phones
+		 - PUT  localhost:8080/signupservice/phones/{id}
+		 - DELETE localhost:8080/signupservice/phones/{id} 
 		 
  - Swagger-UI
-	 - localhost:8080/desafioh2/swagger-ui/index.html
+	 - localhost:8080/signupservice/swagger-ui/index.html
 
 - Spring Boot Application
 
@@ -73,19 +75,34 @@ una contraseña autogenerada para el usuario por defecto. Para iniciar sesión, 
 ```
 
 - Test Junit
-- 
-  ![Logo de mi proyecto](src/main/resources/images/test_junit.png)
-
-- Ejecuta el siguiente comando para generar el sitio y los reportes:
 
 ```
-mvn site
+gradle test
 ```
+- Ejecutar la Tarea de JaCoCo
+
+Para generar el reporte de cobertura de código, ejecuta la tarea `jacocoTestReport` desde la línea de comandos:
+
+```bash
+gradle jacocoTestReport
+```
+Este comando ejecutará las pruebas unitarias y generará los reportes de cobertura.
+
+- Visualizar el Reporte
+Una vez que el reporte ha sido generado, puedes encontrar y visualizar los reportes en los siguientes directorios dentro de tu proyecto:
+
+```bash
+HTML: Abre el archivo index.html ubicado en build/reports/jacoco/test/html/index.html con cualquier navegador web para ver una interfaz gráfica detallada de la cobertura de tus pruebas.
+
+XML: El reporte en formato XML está disponible en build/reports/jacoco/test/jacocoTestReport.xml para integraciones con otras herramientas o para análisis más detallado.
+```
+Estos reportes te proporcionarán información valiosa sobre la cobertura de tus pruebas.
+
 - Test Postman
 
 Descargar archivo postman para pruebas  en:
 
 
 ```
- /resources/postman/desafio-java-h2.postman_collection.json
+ /resources/postman/signupservice.postman_collection.json
 ```

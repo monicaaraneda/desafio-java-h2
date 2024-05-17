@@ -69,12 +69,21 @@ public class UserController {
     // Obtener un usuario por ID
     @GetMapping("/{id}")
     public ResponseEntity<?> getUserById(@PathVariable UUID id) {
-        Optional<User> user = userService.getUserById(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("mensaje", "Usuario no encontrado"));
+        log.info("PathVariable UUID id : {}" + id);
+    
+        try {
+            Optional<User> user = userService.getUserById(id);
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user.get());
+            } else {
+                log.info("Usuario no encontrado con ID: {}", id);
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Collections.singletonMap("mensaje", "Usuario no encontrado"));
+            }
+        } catch (Exception e) {
+            log.error("Error al obtener el usuario con ID: {}", id, e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("mensaje", "Error interno del servidor"));
         }
     }
 

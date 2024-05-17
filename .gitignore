@@ -73,3 +73,5 @@ javadoc/
 # Windows thumbnail cache
 Thumbs.db
 
+#gradle
+.gradle/
